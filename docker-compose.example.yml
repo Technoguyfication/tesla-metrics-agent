@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  tesla-metrics-agent:
+    image: ghcr.io/technoguyfication/tesla-metrics-agent:latest
+    networks:
+      - frontend
+    environment:
+      TESLA_REFRESH_TOKEN: "See repository readme to obtain your refresh token"
+      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_TOKEN: "your-token-here"
+      INFLUXDB_ORG: "your-org-here"
+      INFLUXDB_BUCKET: "tesla-metrics"
+    restart: unless-stopped
+
+networks:
+  frontend:
+    driver: bridge
