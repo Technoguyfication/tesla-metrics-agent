@@ -10,9 +10,51 @@ type TeslaToken = {
 type TeslaData = {
 	state: string;
 
+	drive_state: {
+		heading: number;
+		latitude: number;
+		longitude: number;
+		speed: number | null;
+		power: number;
+
+	}
+
 	charge_state: {
 		battery_level: number;
+
+		/** Battery range as determined by vehicle's EPA rating */
 		battery_range: number;
+
+		/** Battery range as determined by vehicle's actual range */
+		est_battery_range: number;
+
+		/** Current charging state of the vehicle */
+		charging_state: string;
+
+		/** The configured current for the charge limit */
+		charge_amps: number;
+
+		/** Charge rate in mph */
+		charge_rate: number;
+
+		charger_voltage: number;
+		charger_actual_current: number;
+		charger_power: number;
+		charger_phases: number;
+		charge_limit_soc: number;
+
+		/** Minutes to reach requested SOC */
+		minutes_to_full_charge: number;
+
+		/** Hours to reach requested SOC */
+		time_to_full_charge: number;
+	}
+
+	climate_state: {
+		inside_temp: number;
+		outside_temp: number;
+		driver_temp_setting: number;
+		passenger_temp_setting: number;
 	}
 
 	vehicle_state: {
