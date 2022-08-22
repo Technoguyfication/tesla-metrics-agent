@@ -1,0 +1,14 @@
+{
+  "name": "tesla-metrics-collection",
+  "version": "1.0.0",
+  "description": "InfluxDB data source for reporting Tesla vehicle metrics",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
