@@ -13,9 +13,13 @@
 			],
 			"preLaunchTask": "npm: build",
 			"program": "${workspaceFolder}/build/index.js",
+			"sourceMaps": true,
+			"smartStep": true,
 			"outFiles": [
 				"${workspaceFolder}/build/**/*.js"
-			]
+			],
+			"envFile": "${workspaceFolder}/.env",
+			"internalConsoleOptions": "openOnSessionStart"
 		}
 	]
 }
