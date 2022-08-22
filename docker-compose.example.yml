@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   tesla-metrics-agent:
-    image: ghcr.io/technoguyfication/tesla-metrics-agent:latest
+    image: ghcr.io/technoguyfication/tesla-metrics-agent:master
     networks:
       - frontend
     environment:
