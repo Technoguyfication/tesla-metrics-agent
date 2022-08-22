@@ -1,13 +1,18 @@
-import fs from "fs";
-import os from "os";
-import path from "path";
-import { promisify } from "util";
+import { InfluxDB, Point} from '@influxdata/influxdb-client';
 
 import Config from "./config";
 import TeslaApi from "./teslaApi";
 
 async function start() {
 	log("Starting...");
+
+	// create influx client
+	const influx = new InfluxDB({
+		url: Config.influxUrl,
+		token: Config.influxToken
+	});
+	
+	const influxWriteApi = influx.getWriteApi(Config.influxOrg, Config.influxBucket);
 
 	// create an instance of the api
 	const teslaApi = new TeslaApi(Config.teslaRefreshToken);
@@ -44,12 +49,24 @@ async function start() {
 		try {
 			for (let i = 0; i < trackedVehicles.length; i++) {
 				const vehicle = trackedVehicles[i];
-				
-				debugLog(`Getting data for ${vehicle}`);
 
+				debugLog(`Getting data for ${vehicle}`);
 				const data = await teslaApi.getData(vehicle);
 
-				console.log(data);
+				// if the vehicle is unavailable, skip it
+				if (data === null) {
+					debugLog(`Vehicle ${vehicle} unavailable`);
+					continue;
+				}
+
+				// turn vehicle data into points
+				const points: Point[] = [
+					new Point("vehicle_data").tag("vehicle", vehicle).tag("vin", data.vin).floatField("battery_level", data.charge_state.battery_level).floatField("battery_range", data.charge_state.battery_range).floatField("odometer", data.vehicle_state.odometer).stringField("state", data.state),
+				];
+
+				debugLog(`Writing ${points.length} points for ${vehicle}`);
+				influxWriteApi.writePoints(points);
+				await influxWriteApi.flush();
 			}
 		} catch (er) {
 			retries++;

@@ -15,7 +15,11 @@ type TeslaData = {
 		battery_range: number;
 	}
 
-	odometer: number;
+	vehicle_state: {
+		odometer: number;
+	}
+	
+	vin: string;
 };
 
 export default class TeslaApi {
@@ -34,7 +38,7 @@ export default class TeslaApi {
 		
 		switch (response.status) {
 			case 200:
-				return response.data;
+				return response.data["response"];
 			case 408:
 				return null;	// vehicle unavailable
 			default:
