@@ -9,6 +9,7 @@ type TeslaToken = {
 
 type TeslaData = {
 	state: string;
+	vin: string;
 
 	drive_state: {
 		heading: number;
@@ -16,52 +17,68 @@ type TeslaData = {
 		longitude: number;
 		speed: number | null;
 		power: number;
-
+		shift_state: string | null;
 	}
 
 	charge_state: {
+		/** (int) Battery SOC in percent */
 		battery_level: number;
 
-		/** Battery range as determined by vehicle's EPA rating */
+		/** (float) Battery range as determined by vehicle's EPA rating in miles */
 		battery_range: number;
 
-		/** Battery range as determined by vehicle's actual range */
+		/** (float) Battery range as determined by vehicle's actual range in miles */
 		est_battery_range: number;
 
 		/** Current charging state of the vehicle */
 		charging_state: string;
 
-		/** The configured current for the charge limit */
+		/** (int) The configured current for the charge limit in amps */
 		charge_amps: number;
 
-		/** Charge rate in mph */
+		/** (float) Charge rate in mph */
 		charge_rate: number;
 
-		charger_voltage: number;
-		charger_actual_current: number;
-		charger_power: number;
-		charger_phases: number;
+		/** (int) The configured current for the charge limit in percent */
 		charge_limit_soc: number;
 
-		/** Minutes to reach requested SOC */
+		/** (int) The configured charger voltage in volts */
+		charger_voltage: number;
+
+		/** (int) The actual current being drawn by the charger in amps */
+		charger_actual_current: number;
+
+		/** (int) The power being drawn by the charger in kilowatts */
+		charger_power: number;
+
+		/** (int) Number of phases being used by charger */
+		charger_phases: number | null;
+
+		/** (int) Minutes to reach requested SOC */
 		minutes_to_full_charge: number;
 
-		/** Hours to reach requested SOC */
+		/** (float) Hours to reach requested SOC */
 		time_to_full_charge: number;
 	}
 
 	climate_state: {
+		/** (float) Inside temperature in degrees Celsius */
 		inside_temp: number;
+
+		/** (float) Outside temperature in degrees Celsius */
 		outside_temp: number;
+
+		/** (float) Driver temperature setting in degrees Celsius */
 		driver_temp_setting: number;
+
+		/** (float) Passenger temperature setting in degrees Celsius */
 		passenger_temp_setting: number;
 	}
 
 	vehicle_state: {
+		/** (float) Odometer reading in miles */
 		odometer: number;
 	}
-	
-	vin: string;
 };
 
 export default class TeslaApi {
@@ -77,7 +94,7 @@ export default class TeslaApi {
 	 * */
 	async getData(vehicleId: string): Promise<TeslaData | null> {
 		const response = await this.apiRequest("GET", `api/1/vehicles/${vehicleId}/vehicle_data`);
-		
+
 		switch (response.status) {
 			case 200:
 				return response.data["response"];
@@ -93,7 +110,7 @@ export default class TeslaApi {
 
 		if (response.status !== 200) throw new Error(`Unexpected response: ${response.status}`);
 
-		const vehicles: { id_s: string}[] = response.data["response"];
+		const vehicles: { id_s: string }[] = response.data["response"];
 		return vehicles.map(v => v.id_s);
 	}
 
