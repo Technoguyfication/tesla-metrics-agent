@@ -7,7 +7,7 @@ services:
       - frontend
     environment:
       TESLA_REFRESH_TOKEN: "See repository readme to obtain your refresh token"
-      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_URL: "https://your-influx-db.example.com"
       INFLUXDB_TOKEN: "your-token-here"
       INFLUXDB_ORG: "your-org-here"
       INFLUXDB_BUCKET: "tesla-metrics"
