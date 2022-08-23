@@ -71,6 +71,7 @@ async function start() {
 
 				const drivePoint = new Point("drive_state")
 					.tag("vehicle", vehicle)
+					.tag("vin", data.vin)
 					.intField("heading", data.drive_state.heading)
 					.floatField("latitude", data.drive_state.latitude)
 					.floatField("longitude", data.drive_state.longitude)
@@ -86,6 +87,7 @@ async function start() {
 
 				const chargePoint = new Point("charge_state")
 					.tag("vehicle", vehicle)
+					.tag("vin", data.vin)
 					.intField("battery_level", data.charge_state.battery_level)
 					.floatField("battery_range", data.charge_state.battery_range)
 					.floatField("est_battery_range", data.charge_state.est_battery_range)
@@ -105,6 +107,7 @@ async function start() {
 
 				const climatePoint = new Point("climate_state")
 					.tag("vehicle", vehicle)
+					.tag("vin", data.vin)
 					.floatField("inside_temp", data.climate_state.inside_temp)
 					.floatField("outside_temp", data.climate_state.outside_temp)
 					.floatField("driver_temp_setting", data.climate_state.driver_temp_setting)
