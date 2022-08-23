@@ -9,7 +9,7 @@
 - A Tesla vehicle
 - [InfluxDB Time Series Database](https://www.influxdata.com/get-influxdb/) (Only version 2 and above is supported!)
 - Basic understanding of InfluxDB + FluxQL or a willingness to learn
-- [A Tesla API Token](#bbtaining-a-token)
+- [A Tesla API Token](#obtaining-a-token)
 
 Choose one of the following deployment methods:
 
