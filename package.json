@@ -2,7 +2,6 @@
   "name": "tesla-metrics-agent",
   "version": "1.0.0",
   "description": "InfluxDB data source for reporting Tesla vehicle metrics",
-  "main": "build/index.js",
   "scripts": {
     "build": "tsc"
   },
